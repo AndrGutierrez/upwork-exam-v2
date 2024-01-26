@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+  app:
+    container_name: app
+    build: 
+      context: api
+      dockerfile: Dockerfile.dev
+    environment:
+      DEBUG: 1
+    volumes:
+      - ./api:/code/app
+    ports:
+      - "8000:8000"
+      - "80:80"
+    restart: always 
+    env_file:
+      - .env
+    links:
+      - db
+
+  db:
+    image: mysql:latest
+    container_name: db
+    ports: 
+      - "3305:3306"
+    expose:
+      - "3305"
+        # DATABASE_HOST ENV VARIABLE MUST BE "db"
+    env_file:
+      - .env
+    volumes:
+      - ./.mysql-data/db:/var/lib/mysql 
+    restart: always
+
