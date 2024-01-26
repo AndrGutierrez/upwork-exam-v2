@@ -28,13 +28,15 @@ def create_user(db: Session, user: schemas.UserCreate):
     db.refresh(db_user)
     return db_user
 
-def delete(db: Session, id: int ):
-    user = get_user(db, id)
+def delete(db: Session, id: int,  email: str):
+    user = get_user(db, id) 
     if not user:
-        raise HTTPException(status_code=404, detail="User not found")
-    db.query(models.FavoriteProfiles).filter(models.FavoriteProfiles.user_id == id).delete()
-    db.query(models.Profile).filter(models.Profile.user_id == id).delete()
-    db.query(models.User).filter(models.User.id == id).delete()
+        user= get_user_by_email(db, email)
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+    db.query(models.FavoriteProfiles).filter(models.FavoriteProfiles.user_id == user.id).delete()
+    db.query(models.Profile).filter(models.Profile.user_id == user.id).delete()
+    db.query(models.User).filter(models.User.id == user.id).delete()
     db.commit()
     return {"message": "Deleted Successfully"}
     

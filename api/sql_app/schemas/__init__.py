@@ -45,7 +45,7 @@ class UserCreate(UserBase):
 
 class User(UserBase):
     id: int
-    profiles: list[Profile]=[]
+    profile: list[Profile]=[]
     favorite_profiles: list[FavoriteProfile]=[]
     class Config:
         orm_mode = True

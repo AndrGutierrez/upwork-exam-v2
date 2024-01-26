@@ -31,6 +31,7 @@ def create_user(user: schemas.UserCreate, profile: schemas.ProfileCreate, db: Se
         raise HTTPException(status_code=400, detail="Email already registered")
     user= user_crud.create_user(db, user)
     profile = profile_crud.create_user_profile(db, profile, user.id)
+    user.profile=[profile]
     return user
 
 @router.put('/update',response_model=schemas.User)
@@ -39,7 +40,7 @@ def update_user(id: int, data: schemas.UserBase, db: Session = Depends(get_db)):
     return user
 
 @router.delete('/delete')
-def delete_user(id: int, db: Session = Depends(get_db)):
-    user_crud.delete(db, id)
-    return
+def delete_user(id: int = 0, email: str = "", db: Session = Depends(get_db)):
+    user_crud.delete(db, id, email)
+    return None
 
