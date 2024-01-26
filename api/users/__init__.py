@@ -44,3 +44,9 @@ def delete_user(id: int = 0, email: str = "", db: Session = Depends(get_db)):
     user_crud.delete(db, id, email)
     return None
 
+
+@router.post('/add/fav/profile', response_model=schemas.User)
+def add_fav_profile(user_id: int, profile_id: int, db: Session = Depends(get_db)):
+    user = user_crud.add_fav_profile(db, user_id, profile_id)
+    return user
+

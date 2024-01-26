@@ -10,6 +10,8 @@ from . import profile as profile_crud
 def get_user(db: Session, user_id: int):
     return db.query(models.User).filter(models.User.id == user_id).first()
 
+def get_fav_profiles(db: Session, user_id: int):
+    return db.query(models.FavoriteProfiles).filter(models.FavoriteProfiles.user_id == user_id)
 
 def get_user_by_email(db: Session, email: str):
     user: schemas.UserBase =db.query(models.User).filter(models.User.email == email).first()
@@ -51,4 +53,23 @@ def update_user(db: Session, user_id: int, data: schemas.UserBase):
     db.commit()
     db.refresh(user)
 
+    return user
+
+def add_fav_profile(db: Session, user_id: int, profile_id: int):
+    user = get_user(db, user_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    profile = profile_crud.get_profile(db, profile_id)
+    if not profile:
+        raise HTTPException(status_code=404, detail="Profile not found")
+
+    fav_profile = models.FavoriteProfiles(user_id=user_id, profile_id=profile_id)
+
+    fp = [profile.profile_id for profile in user.favorite_profiles]
+    if profile_id in fp:
+        raise HTTPException(status_code=400, detail="Profile already in favorites")
+    db.add(fav_profile)
+    db.commit()
+    db.refresh(fav_profile)
+    user.favorite_profiles.append(fav_profile)  
     return user
