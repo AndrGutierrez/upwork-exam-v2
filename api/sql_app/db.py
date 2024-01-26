@@ -10,13 +10,13 @@ DATABASE_HOST = os.environ.get("DATABASE_HOST")
 DATABASE_PORT = os.environ.get("DATABASE_PORT")
 DATABASE_NAME = os.environ.get("DATABASE_NAME")
 
-DATABASE_URL = f"mysql://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}:{DATABASE_PORT}/{DATABASE_NAME}"
+DATABASE_URL = f"mysql://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}/{DATABASE_NAME}"
 print("#"*20)
 print(DATABASE_URL)
 print("#"*20)
 
 engine = create_engine(
-    DATABASE_URL, connect_args={"check_same_thread": False}
+    DATABASE_URL
 )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
