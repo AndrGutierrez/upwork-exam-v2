@@ -28,4 +28,3 @@ class User(Base):
     email = Column(String(255), unique=True, nullable=False)
     profile= relationship('Profile', back_populates='user', cascade='all, delete-orphan')
     favorite_profiles = relationship('FavoriteProfiles', back_populates='user', cascade='all, delete-orphan')
-
