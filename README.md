@@ -33,3 +33,8 @@ Working FastAPI API with a User and Profile models and schemas.
 - Implement proper folder structure
 - Validation must be done using Pydantic
 - Use multiple commits (when possible, use conventional commit messages)
+
+# RUN PROJECT
+`docker compose -f docker-compose-dev.yml up --build`
+# RUN TESTS
+ `docker compose -f docker-compose-dev.yml exec app pytest "" -p no:warnings`
