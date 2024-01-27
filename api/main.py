@@ -6,14 +6,14 @@ from sql_app.db import SessionLocal, engine
 
 models.Base.metadata.create_all(bind=engine)
 
-app = FastAPI()
+app = FastAPI(docs_url="/")
 app.include_router(router, prefix='/users')
 app.include_router(profile_router, prefix='/profiles')
 
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+# @app.get("/")
+# async def root():
+#     return {"message": "Hello World"}
 
 
 @app.get("/hello/{name}")
