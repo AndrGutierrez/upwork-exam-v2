@@ -26,11 +26,11 @@ class ProfileBase(BaseModel):
         from_attributes = True
  
 class ProfileCreate(ProfileBase):
+    user_id: int
     pass
 
 class Profile(ProfileBase):
     id: int
-    user_id: int
     class Config:
         orm_mode = True
 

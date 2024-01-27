@@ -25,7 +25,7 @@ def list_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return users
     # return {'users': ['a', 'b', 'c']}
 @router.post('/create', response_model=schemas.User)
-def create_user(user: schemas.UserCreate, profile: schemas.ProfileCreate, db: Session = Depends(get_db)):
+def create_user(user: schemas.UserCreate, profile: schemas.ProfileBase, db: Session = Depends(get_db)):
     db_user = user_crud.get_user_by_email(db, email=user.email)
     if db_user:
         raise HTTPException(status_code=400, detail="Email already registered")

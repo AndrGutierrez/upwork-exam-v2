@@ -4,17 +4,16 @@ from main import app
 import json
 import pytest
 
+client = TestClient(app)    
 
 
 def clear_responses(response):
     response = response
-    profile=response["profile"][0]
-
-    assert profile["user_id"] == response["id"]
+    if len(response["profile"])>0: 
+        profile=response["profile"][0]
+        profile.pop('id')
 
     response.pop('id')
-    profile.pop('id')
-    profile.pop('user_id')
     return response
 
 def test_delete_users():
@@ -36,13 +35,7 @@ def test_create_user():
     assert response.status_code == 200 or 400
 
     response = response.json()
-    profile=response["profile"][0]
-
-    assert profile["user_id"] == response["id"]
-
-    response.pop('id')
-    profile.pop('id')
-    profile.pop('user_id')
+    response = clear_responses(response)    
 
     assert response == {
       "email": "johndoe@gmail.com",
@@ -75,5 +68,3 @@ def test_read_users():
 
 if __name__ == "__main__":
     client=TestClient(app)
-
-# def setup_function():
