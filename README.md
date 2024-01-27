@@ -1,4 +1,3 @@
-
 # Andres' Fork
 ## Before starting
 All the sensitive data is stored in .env file in root folder, since this is a test that won't go into production, copy and paste this in your .env
@@ -18,6 +17,7 @@ I decided to dockerize the project because of the possible issues you could have
 ```bash
 docker compose -f docker-compose-dev.yml up --build
 ```
+Now go to `localhost:80` to see the results
 
 ## Run Project (the hard way, at your own risk)
 If you don't have docker installed, configure your tables manually, then run:
