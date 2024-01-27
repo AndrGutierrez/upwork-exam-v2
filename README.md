@@ -15,6 +15,9 @@ MYSQL_DATABASE=test_db
 I decided to dockerize the project because of the possible issues you could have with the database, to setup mysql and fastAPI just run this command with docker
 
 ```bash
+# Crear la base de datos
+docker compose -f docker-compose-dev.yml up db --build -d
+# Iniciar servidor fastAPI
 docker compose -f docker-compose-dev.yml up --build
 ```
 Now go to `localhost:80` to see the results
